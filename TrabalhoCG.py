@@ -4,22 +4,24 @@ import numpy as np
 
 pygame.init()
 
-LARGURA, ALTURA = 800, 600
-screen = pygame.display.set_mode((LARGURA, ALTURA))
+largura = 800
+altura = 600
+screen = pygame.display.set_mode((largura, altura))
 pygame.display.set_caption("Passo 5 - Elipse")
 clock = pygame.time.Clock()
 
-PRETO  = (0,   0,   0)
-BRANCO = (255, 255, 255)
-CINZA  = (180, 180, 180)
-AMARELO= (255, 255,  0)
+# Cores
+preto  = (0,   0,   0)
+branco = (255, 255, 255)
+cinza = (180, 180, 180)
+amarelo = (255, 255,  0)
 
-CX   = LARGURA // 2
-CY   = ALTURA  // 2
-RAIO = 150
+cx   = largura // 2
+cy   = altura // 2
+raio = 150
 
 
-# ── Funções de vértices ──────────────────────────────────────────
+# -- Funções de vértices -------------------------
 
 def gerar_vertices(n, raio, cx, cy):
     vertices = []
@@ -47,7 +49,7 @@ def desenhar_poligono(screen, vertices, cor, espessura=2):
         pygame.draw.line(screen, cor, vertices[i], vertices[(i + 1) % n], espessura)
 
 
-# ── Matrizes de transformação ────────────────────────────────────
+# -- Matrizes das transformações ----------------------------
 
 def mat_translacao(tx, ty):
     return np.array([[1, 0, tx],
@@ -55,10 +57,11 @@ def mat_translacao(tx, ty):
                      [0, 0,  1]], dtype=float)
 
 def mat_rotacao(theta):
-    c, s = math.cos(theta), math.sin(theta)
-    return np.array([[ c, -s, 0],
-                     [ s,  c, 0],
-                     [ 0,  0, 1]], dtype=float)
+    cos = math.cos(theta)
+    sen = math.sin(theta)
+    return np.array([[cos, -sen, 0],
+                     [sen,  cos, 0],
+                     [ 0,   0, 1]], dtype=float)
 
 def mat_escala(sx, sy):
     return np.array([[sx,  0, 0],
@@ -79,27 +82,28 @@ def aplicar_transformacao(vertices, matriz):
     return resultado
 
 def desenhar_eixos(screen):
-    pygame.draw.line(screen, (200, 0, 0), (0, CY), (LARGURA, CY), 1)  # X vermelho
-    pygame.draw.line(screen, (0, 200, 0), (CX, 0), (CX, ALTURA), 1)   # Y verde
+    pygame.draw.line(screen, (200, 0, 0), (0, cy), (largura, cy), 1)  # X vermelho
+    pygame.draw.line(screen, (0, 200, 0), (cx, 0), (cx, altura), 1)   # Y verde
 
 
-# ── Estado inicial ───────────────────────────────────────────────
-
-n           = 6
-tx, ty      = 0, 0
-angulo      = 0.0
-escala      = 1.0
-shx, shy    = 0.0, 0.0
-raio_a      = 200       # raio horizontal da elipse
-raio_b      = 100       # raio vertical da elipse
+# -- Estado inicial --------------------------------------
+tx = 0
+ty = 0
+angulo = 0.0
+escala = 1.0
+shx = 0.0
+shy = 0.0
+raio_a = 200       # raio horizontal da elipse
+raio_b = 100       # raio vertical da elipse
 modo_elipse = False
 atualizar   = True
 vertices_base = []
+n = 0
 
 fonte = pygame.font.SysFont("monospace", 20)
 
 
-# ── Loop principal ───────────────────────────────────────────────
+#-- Loop principal -------------------------------
 
 running = True
 while running:
@@ -113,10 +117,12 @@ while running:
                 atualizar = True
 
             if event.key == pygame.K_r:
-                tx, ty   = 0, 0
-                angulo   = 0.0
-                escala   = 1.0
-                shx, shy = 0.0, 0.0
+                tx = 0
+                ty = 0
+                angulo = 0.0
+                escala = 1.0
+                shx = 0.0
+                shy = 0.0
 
             if not modo_elipse:
                 if event.key == pygame.K_UP:
@@ -129,9 +135,9 @@ while running:
     # Regenera vértices base se necessário
     if atualizar:
         if modo_elipse:
-            vertices_base = gerar_elipse(n, raio_a, raio_b, CX, CY)
+            vertices_base = gerar_elipse(n, raio_a, raio_b, cx, cy)
         else:
-            vertices_base = gerar_vertices(n, RAIO, CX, CY)
+            vertices_base = gerar_vertices(n, raio, cx, cy)
         atualizar = False
 
     # Teclas contínuas
@@ -165,21 +171,21 @@ while running:
 
     # Monta matriz composta
     M = (
-        mat_translacao(CX + tx, CY + ty) @
+        mat_translacao(cx + tx, cy + ty) @
         mat_rotacao(angulo)              @
         mat_escala(escala, escala)       @
         mat_cisalhamento(shx, shy)       @
-        mat_translacao(-CX, -CY)
+        mat_translacao(-cx, -cy)
     )
     vertices_transformados = aplicar_transformacao(vertices_base, M)
 
     # Desenha
-    screen.fill(PRETO)
-    desenhar_eixos(screen)                                        # ← aqui
-    desenhar_poligono(screen, vertices_transformados, BRANCO)
+    screen.fill(preto)
+    desenhar_eixos(screen)
+    desenhar_poligono(screen, vertices_transformados, branco)
 
     # HUD — muda de cor dependendo do modo
-    cor_modo = AMARELO if modo_elipse else CINZA
+    cor_modo = amarelo if modo_elipse else cinza
     modo_str = "ELIPSE" if modo_elipse else "POLÍGONO"
 
     if modo_elipse:
