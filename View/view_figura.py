@@ -3,7 +3,7 @@
 import math
 import pygame
 
-from model import CX, CY, LARGURA, ALTURA   #Centro de X, Centro de Y, Largura e Altura da tela
+from Model.config import CX, CY, LARGURA, ALTURA   #Centro de X, Centro de Y, Largura e Altura da tela
 
 
 # Cores que serão usadas
@@ -78,26 +78,26 @@ class View:
             cor     = AMARELO
             modo_str = "ELIPSE"
             linhas  = [
-                f"Modo: {modo_str}              (TAB)",
-                f"Raio A (horiz) : {model.raio_a}px   (←→)",
-                f"Raio B (vert)  : {model.raio_b}px   (↑↓)",
+                f"Modo: {modo_str}(TAB)",
+                f"Raio A (horiz) : {model.raio_a}px (← →)",
+                f"Raio B (vert)  : {model.raio_b}px (↑ ↓)",
                 f"Lados          : {model.n}",
-                f"Transladar     : ({model.tx}, {model.ty})  (WASD)",
-                f"Rotação        : {math.degrees(model.angulo):.1f}°  (QE)",
-                f"Escala         : {model.escala:.2f}         (ZX)",
-                f"Cisalh.        : ({model.shx:.2f}, {model.shy:.2f})   (CV / BN)",
+                f"Transladar     : ({model.tx}, {model.ty}) (WASD)",
+                f"Rotação        : {math.degrees(model.angulo):.1f}° (QE)",
+                f"Escala         : {model.escala:.2f}(ZX)",
+                f"Cisalh.        : ({model.shx:.2f}, {model.shy:.2f})(CV / BN)",
                 f"Reset          : R",
             ]
         else:
             cor     = CINZA
             modo_str = "POLÍGONO"
             linhas  = [
-                f"Modo: {modo_str}            (TAB)",
-                f"Lados      : {model.n}            (↑↓)",
-                f"Transladar : ({model.tx}, {model.ty})   (WASD)",
-                f"Rotação    : {math.degrees(model.angulo):.1f}°  (QE)",
-                f"Escala     : {model.escala:.2f}        (ZX)",
-                f"Cisalh.    : ({model.shx:.2f}, {model.shy:.2f})  (CV / BN)",
+                f"Modo: {modo_str} (TAB)",
+                f"Lados      : {model.n} (↑ ↓)",
+                f"Transladar : ({model.tx}, {model.ty}) (WASD)",
+                f"Rotação    : {math.degrees(model.angulo):.1f}° (QE)",
+                f"Escala     : {model.escala:.2f} (ZX)",
+                f"Cisalh.    : ({model.shx:.2f}, {model.shy:.2f}) (CV / BN)",
                 f"Reset      : R",
             ]
 

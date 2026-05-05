@@ -10,8 +10,6 @@ Dois tipos de teclas são tratados de formas diferentes:
 """
 
 import pygame
-
-
 class Controller:
     """
     Processa entradas do teclado e traduz em ações no Model.

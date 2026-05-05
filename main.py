@@ -7,9 +7,10 @@ Arquivos do trabalho:
 """
 
 import pygame
-from model      import FiguraModel, LARGURA, ALTURA
-from view       import View
-from controller import Controller
+from Model.figura import FiguraModel
+from Model.config import LARGURA, ALTURA
+from View.view_figura import View
+from Controller.controller_figura import Controller
 
 
 def main():
@@ -17,13 +18,13 @@ def main():
 
     # Cria a janela
     screen = pygame.display.set_mode((LARGURA, ALTURA))  # Variáveis em MAIÚSCULAS são 'constantes' em Python.
-    pygame.display.set_caption("Trabalho CG")
+    pygame.display.set_caption("Trabalho de Computação Gráfica")
 
     clock = pygame.time.Clock()
 
     # Instancia as três camadas do MVC
-    model      = FiguraModel()
-    view       = View(screen)
+    model = FiguraModel()
+    view = View(screen)
     controller = Controller(model)
 
     # ----- Loop principal ------
